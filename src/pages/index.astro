@@ -1,0 +1,276 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { getCollection, getEntry, render } from "astro:content";
+
+// Timeline entries, sorted by order (newest first)
+const timelineEntries = (await getCollection("timeline")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+// AI Philosophy section
+const aiPhilosophy = await getEntry("sections", "ai-philosophy");
+const { Content: AiContent } = aiPhilosophy
+  ? await render(aiPhilosophy)
+  : { Content: null };
+---
+
+<Layout title="Metaintellect">
+  <!-- Hero -->
+  <section
+    data-section="hero"
+    class="relative flex min-h-[85vh] flex-col justify-center px-6 sm:px-8"
+  >
+    <!-- Subtle glow -->
+    <div
+      class="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/[0.04] blur-[120px]"
+    >
+    </div>
+
+    <div class="relative mx-auto w-full max-w-2xl">
+      <!-- Logo -->
+      <img
+        src="/logo.svg"
+        alt="Metaintellect"
+        class="mb-8 h-10 w-auto sm:h-12"
+      />
+      <p class="mb-2 text-sm text-text-muted">Est. 2016 · Rijeka, Croatia</p>
+      <p class="max-w-xl text-xl leading-relaxed text-text-secondary">
+        20 years of software engineering. DevOps, cloud infrastructure,
+        and AI-augmented development — from architecture and design to
+        production systems at scale.
+      </p>
+
+      <div class="mt-10 flex items-center gap-5 text-sm text-text-muted">
+        <a
+          href="mailto:ks@metaintellect.com"
+          class="flex items-center gap-1.5 transition-colors hover:text-accent"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          ks@metaintellect.com
+        </a>
+        <span class="flex items-center gap-1.5">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          Rijeka, Croatia
+        </span>
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div
+      class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce text-text-muted/40"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+    </div>
+  </section>
+
+  <!-- Story / Timeline -->
+  <section data-section="story" class="px-6 py-24 sm:px-8">
+    <div class="mx-auto max-w-3xl">
+      <h2 class="fade-in mb-16 flex items-center gap-2.5 text-sm font-medium uppercase tracking-widest text-text-muted">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+        The story so far
+      </h2>
+
+      <div class="timeline">
+        {timelineEntries.map(async (entry) => {
+          const { Content } = await render(entry);
+          return (
+            <div
+              class:list={[
+                "timeline-entry fade-in",
+                { "timeline-highlight": entry.data.highlight },
+              ]}
+            >
+              <div class="timeline-period">
+                <span class="font-medium tabular-nums text-text-muted">
+                  {entry.data.period}
+                </span>
+              </div>
+              <div class="timeline-card">
+                <div class="mb-3">
+                  <h3 class="text-xl font-semibold text-text">
+                    {entry.data.role}
+                  </h3>
+                  <p class="text-lg text-text-muted">{entry.data.company}</p>
+                </div>
+                <div class="timeline-prose text-lg leading-relaxed text-text-secondary">
+                  <Content />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  {/* <!-- How I work with AI — commented out for rethinking -->
+  <section data-section="ai-philosophy" class="px-6 py-24 sm:px-8">
+    <div class="mx-auto max-w-2xl">
+      <h2 class="fade-in mb-12 flex items-center gap-2.5 text-sm font-medium uppercase tracking-widest text-text-muted">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4v1a1 1 0 0 0 1 1h1a4 4 0 0 1 0 8h-1a1 1 0 0 0-1 1v1a4 4 0 0 1-8 0v-1a1 1 0 0 0-1-1H6a4 4 0 0 1 0-8h1a1 1 0 0 0 1-1V6a4 4 0 0 1 4-4z"/><circle cx="12" cy="12" r="2"/></svg>
+        {aiPhilosophy?.data.title ?? "How I work with AI"}
+      </h2>
+
+      <div class="fade-in ai-prose space-y-6 text-text-secondary">
+        {AiContent && <AiContent />}
+      </div>
+    </div>
+  </section>
+  */}
+
+  <!-- Projects — Recent Work -->
+  <section data-section="projects" class="px-6 py-24 sm:px-8">
+    <div class="mx-auto max-w-4xl">
+      <h2 class="fade-in mb-12 flex items-center gap-2.5 text-sm font-medium uppercase tracking-widest text-text-muted">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4v1a1 1 0 0 0 1 1h1a4 4 0 0 1 0 8h-1a1 1 0 0 0-1 1v1a4 4 0 0 1-8 0v-1a1 1 0 0 0-1-1H6a4 4 0 0 1 0-8h1a1 1 0 0 0 1-1V6a4 4 0 0 1 4-4z"/><circle cx="12" cy="12" r="2"/></svg>
+        Recent projects
+      </h2>
+
+      <div class="fade-in-group grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ProjectCard
+          title="NN-RAG"
+          icon="ai"
+          description="RAG system for Croatian legal documents. Hybrid search over 38K+ documents from Narodne Novine with dense + sparse retrieval, reranking, semantic cache, and Croatian NLP."
+          tags={["Python", "FastAPI", "FAISS", "BM25", "Bedrock"]}
+          href="/projects/nn-rag"
+        />
+
+        <ProjectCard
+          title="Media Collection"
+          icon="vinyl"
+          description="Full-stack app to catalog 4,600+ physical media items — vinyl, CDs, Blu-rays. Built entirely with AI, no React experience beforehand. Imports from Discogs and Blu-ray.com with full-text search."
+          tags={["React 19", "TypeScript", "FastAPI", "SQLite"]}
+          href="/projects/media-collection"
+        />
+
+        <ProjectCard
+          title="Music Streaming"
+          icon="music"
+          description="Raspberry Pi 5 NAS with RAID 1 and multi-room Roon audio. HDMI audio bridge, 28TB storage for 2,200+ CDs ripped to FLAC."
+          tags={["Raspberry Pi", "DietPi", "RAID", "Roon", "ALSA"]}
+          href="https://github.com/xajler/music-streaming"
+          github="https://github.com/xajler/music-streaming"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects — Open Source / Nerdy Stuff -->
+  <section data-section="projects-oss" class="px-6 pb-24 sm:px-8">
+    <div class="mx-auto max-w-4xl">
+      <h2 class="fade-in mb-12 flex items-center gap-2.5 text-sm font-medium uppercase tracking-widest text-text-muted">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        Open source &amp; nerdy stuff
+      </h2>
+
+      <div class="fade-in-group grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ProjectCard
+          title="InstantCoach API"
+          icon="code"
+          description="Example REST API with .NET Core, EF Core, Docker Compose, JWT, Swagger, Serilog, Elasticsearch APM, SonarCloud. Full CI/CD with Travis and code coverage."
+          tags={[".NET Core", "C#", "Docker", "EF Core", "xUnit"]}
+          href="https://github.com/xajler/instantcoach-api"
+          github="https://github.com/xajler/instantcoach-api"
+        />
+
+        <ProjectCard
+          title="Mac Dotfiles"
+          icon="terminal"
+          description="macOS setup with Aerospace tiling WM, SketchyBar, WezTerm, Zellij, Neovim, Karabiner. Dvorak layout, custom keybindings, secrets via Keychain."
+          tags={["macOS", "Aerospace", "SketchyBar", "Neovim", "Zsh"]}
+          href="https://github.com/xajler/mac-dotfiles"
+          github="https://github.com/xajler/mac-dotfiles"
+        />
+
+        <ProjectCard
+          title="Void Linux i3"
+          icon="linux"
+          description="Complete Void Linux install with i3-gaps, polybar, and full dotfiles for Lenovo ThinkPad x220 and t440s. Encrypted disk, custom scripts, minimal setup."
+          tags={["Void Linux", "i3", "Polybar", "ThinkPad"]}
+          href="https://github.com/xajler/voidlinux-i3"
+          github="https://github.com/xajler/voidlinux-i3"
+          stars={69}
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Beyond the code -->
+  <section data-section="about" class="px-6 py-16 sm:px-8">
+    <div class="mx-auto max-w-2xl">
+      <div class="fade-in rounded-xl border border-border bg-bg-card/50 p-6">
+        <h3 class="mb-4 flex items-center gap-2 text-sm font-medium uppercase tracking-widest text-text-muted">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          Beyond the code
+        </h3>
+        <div class="grid gap-3 text-sm leading-relaxed text-text-secondary sm:grid-cols-2">
+          <div class="flex items-start gap-2.5">
+            <svg class="mt-0.5 shrink-0 text-text-muted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+            <span>Analog and digital photography. Mamiya RZ67.</span>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <svg class="mt-0.5 shrink-0 text-text-muted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="1"/></svg>
+            <span>Vinyl, CDs, SACDs, Blu-rays — physical media collector.</span>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <svg class="mt-0.5 shrink-0 text-text-muted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <span>Long distance running — half marathons and trail runs.</span>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <svg class="mt-0.5 shrink-0 text-text-muted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            <span>Unix on everything. Neovim. Dvorak layout.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact / Hire -->
+  <section data-section="contact" class="px-6 py-24 sm:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <div class="fade-in">
+        <h2 class="mb-4 text-2xl font-semibold tracking-tight">
+          Want to work together?
+        </h2>
+        <p class="mb-8 text-text-secondary">
+          I'm available for contract work, consulting, or interesting
+          collaborations. If you need someone with deep experience in cloud
+          infrastructure, DevOps, backend systems, or AI engineering — let's
+          talk.
+        </p>
+        <a
+          href="mailto:ks@metaintellect.com"
+          class="inline-flex items-center gap-2 rounded-lg border border-accent/30 bg-accent/10 px-6 py-3 text-sm font-medium text-accent transition-all hover:border-accent/50 hover:bg-accent/15"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          ks@metaintellect.com
+        </a>
+        <div class="mt-6 flex items-center justify-center gap-5 text-sm text-text-muted">
+          <a
+            href="https://github.com/xajler"
+            target="_blank"
+            rel="noopener"
+            class="flex items-center gap-1.5 transition-colors hover:text-text-secondary"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <span class="text-border-light">·</span>
+          <span class="flex items-center gap-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            Rijeka, Croatia
+          </span>
+          <span class="text-border-light">·</span>
+          <span>Metaintellect d.o.o.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer data-section="footer" class="border-t border-border px-6 py-8 text-center text-xs text-text-muted">
+    <p>&copy; {new Date().getFullYear()} Metaintellect d.o.o.</p>
+  </footer>
+</Layout>

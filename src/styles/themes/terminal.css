@@ -1,0 +1,166 @@
+/*
+ * Terminal Theme — JetBrains Mono, green-on-black, monospace feel
+ */
+
+html.theme-terminal {
+  --color-bg: #0c0c0c;
+  --color-bg-raised: #141414;
+  --color-bg-card: #141414;
+  --color-border: #282828;
+  --color-border-light: #333;
+  --color-text: #b0b0b0;
+  --color-text-secondary: #888;
+  --color-text-muted: #606060;
+  --color-accent: #4af626;
+  --color-accent-light: #6fff4a;
+  --color-accent-dim: rgba(74, 246, 38, 0.12);
+  --font-sans: "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* Selection */
+html.theme-terminal ::selection {
+  background: rgba(74, 246, 38, 0.35);
+  color: #e0e0e0;
+}
+
+/* Remove default noise overlay, replace with nothing */
+html.theme-terminal body::after {
+  display: none;
+}
+
+/* ── Section header prompts ─────────────────────────── */
+html.theme-terminal [data-section] h2,
+html.theme-terminal [data-section] h3 {
+  font-family: "JetBrains Mono", monospace;
+}
+
+html.theme-terminal [data-section="story"] h2::before,
+html.theme-terminal [data-section="ai-philosophy"] h2::before,
+html.theme-terminal [data-section="projects"] h2::before,
+html.theme-terminal [data-section="projects-oss"] h2::before,
+html.theme-terminal [data-section="about"] h3::before {
+  content: "$ ";
+  color: var(--color-text-muted);
+}
+
+/* ── Blinking cursor on hero ────────────────────────── */
+html.theme-terminal [data-section="hero"] p:first-of-type::after {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: var(--color-accent);
+  animation: terminal-blink 1s step-end infinite;
+  vertical-align: text-bottom;
+  margin-left: 3px;
+}
+
+@keyframes terminal-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ── Dashed section borders ─────────────────────────── */
+html.theme-terminal [data-section="story"],
+html.theme-terminal [data-section="ai-philosophy"],
+html.theme-terminal [data-section="projects"],
+html.theme-terminal [data-section="projects-oss"],
+html.theme-terminal [data-section="about"] {
+  border-bottom: 1px dashed var(--color-border);
+}
+
+/* ── Project cards: left-border style ────────────────── */
+html.theme-terminal article {
+  border-radius: 0 !important;
+  border: none !important;
+  border-left: 2px solid var(--color-border) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding-left: 1rem;
+}
+
+html.theme-terminal article:hover {
+  border-left-color: var(--color-accent) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* Tags in terminal style */
+html.theme-terminal article span[class*="rounded-md"] {
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+  color: var(--color-text-muted);
+}
+
+html.theme-terminal article span[class*="rounded-md"]::before {
+  content: "[";
+  color: var(--color-border-light);
+}
+
+html.theme-terminal article span[class*="rounded-md"]::after {
+  content: "]";
+  color: var(--color-border-light);
+}
+
+/* ── Scrollbar ──────────────────────────────────────── */
+html.theme-terminal ::-webkit-scrollbar-thumb {
+  background: #333;
+}
+
+html.theme-terminal ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* ── Links ──────────────────────────────────────────── */
+html.theme-terminal a:hover {
+  text-decoration: underline;
+  color: var(--color-accent);
+}
+
+/* ── Current role box ────────────────────────────────── */
+html.theme-terminal .rounded-lg.border-accent\/20 {
+  border-color: #ffb627 !important;
+  background: rgba(255, 182, 39, 0.08) !important;
+  border-radius: 0;
+}
+
+html.theme-terminal .rounded-lg.border-accent\/20 .text-accent\/70 {
+  color: #ffb627 !important;
+}
+
+/* ── Footer ─────────────────────────────────────────── */
+html.theme-terminal [data-section="footer"] {
+  border-top-style: dashed;
+}
+
+/* ── Hero glow: remove ──────────────────────────────── */
+html.theme-terminal [data-section="hero"] > div:first-child {
+  display: none;
+}
+
+/* ── Contact button: terminal style ─────────────────── */
+html.theme-terminal [data-section="contact"] a[href^="mailto"] {
+  border-radius: 0;
+  border: 1px solid var(--color-accent);
+  background: rgba(74, 246, 38, 0.08);
+}
+
+/* ── Timeline: dashed borders, no card styling ──────── */
+html.theme-terminal .timeline-entry {
+  border-top-style: dashed;
+}
+
+html.theme-terminal .timeline-highlight .timeline-card {
+  border: 1px solid #ffb627;
+  background: rgba(255, 182, 39, 0.08);
+  border-radius: 0;
+}
+
+html.theme-terminal .timeline-highlight .timeline-period span {
+  color: #ffb627;
+}

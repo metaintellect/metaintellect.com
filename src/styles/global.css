@@ -1,0 +1,234 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #08080c;
+  --color-bg-raised: #101018;
+  --color-bg-card: #14141e;
+  --color-border: #1e1e2e;
+  --color-border-light: #2a2a3a;
+  --color-text: #e2e2e8;
+  --color-text-secondary: #9898a6;
+  --color-text-muted: #5c5c6e;
+  --color-accent: #c8956a;
+  --color-accent-light: #dbb896;
+  --color-accent-dim: oklch(0.65 0.1 55 / 0.12);
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  line-height: 1.7;
+}
+
+/* Subtle noise overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* Selection */
+::selection {
+  background-color: oklch(0.65 0.1 55 / 0.3);
+  color: var(--color-text);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* Links */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-accent-light);
+}
+
+/* Scroll animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children */
+.fade-in-group > .fade-in:nth-child(1) { transition-delay: 0s; }
+.fade-in-group > .fade-in:nth-child(2) { transition-delay: 0.1s; }
+.fade-in-group > .fade-in:nth-child(3) { transition-delay: 0.15s; }
+.fade-in-group > .fade-in:nth-child(4) { transition-delay: 0.2s; }
+
+/* ── Timeline ──────────────────────────────────────── */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.timeline-entry {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 2rem;
+  padding: 2rem 0;
+  border-top: 1px solid var(--color-border);
+  align-items: start;
+}
+
+.timeline-entry:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-period {
+  padding-top: 0.25rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.timeline-period span {
+  font-size: 0.9rem;
+}
+
+.timeline-card {
+  /* Base card — no box by default, content sits clean */
+}
+
+/* Highlighted entry (current role) */
+.timeline-highlight .timeline-card {
+  border: 1px solid var(--color-accent-dim);
+  background: var(--color-accent-dim);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.timeline-highlight .timeline-period span {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* Prose from markdown content */
+.timeline-prose p {
+  margin-bottom: 0.75rem;
+}
+
+.timeline-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-prose strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.timeline-prose a {
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.timeline-prose a:hover {
+  color: var(--color-accent);
+}
+
+/* AI philosophy prose from markdown */
+.ai-prose p {
+  margin-bottom: 1.5rem;
+}
+
+.ai-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.ai-prose strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.ai-prose em {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+/* ── Project prose (from markdown) ───────────────── */
+.project-prose h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.project-prose h2:first-child {
+  margin-top: 0;
+}
+
+.project-prose p {
+  margin-bottom: 1rem;
+}
+
+.project-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.project-prose strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.project-prose a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.project-prose a:hover {
+  color: var(--color-accent-light);
+}
+
+/* Mobile: stack period above content */
+@media (max-width: 640px) {
+  .timeline-entry {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .timeline-period {
+    text-align: left;
+  }
+}

@@ -1,0 +1,187 @@
+/*
+ * Modern Theme — glassmorphism, grid background, conic gradients, Inter
+ */
+
+html.theme-modern {
+  --color-bg: #000;
+  --color-bg-raised: rgba(255, 255, 255, 0.03);
+  --color-bg-card: rgba(255, 255, 255, 0.05);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-light: rgba(255, 255, 255, 0.12);
+  --color-text: #fff;
+  --color-text-secondary: rgba(255, 255, 255, 0.55);
+  --color-text-muted: rgba(255, 255, 255, 0.25);
+  --color-accent: #0ea5e9;
+  --color-accent-light: #38bdf8;
+  --color-accent-dim: rgba(14, 165, 233, 0.12);
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --modern-grid-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Selection */
+html.theme-modern ::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* ── Grid background ────────────────────────────────── */
+html.theme-modern body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--modern-grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--modern-grid-color) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 30%, transparent 100%);
+}
+
+/* ── Animated gradient blob ─────────────────────────── */
+html.theme-modern body::after {
+  content: "";
+  position: fixed;
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #0ea5e9, #8b5cf6, #ec4899, #f59e0b, #0ea5e9);
+  filter: blur(150px);
+  opacity: 0.07;
+  top: -200px;
+  right: -200px;
+  animation: modern-spin 30s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes modern-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Glassmorphism cards ────────────────────────────── */
+html.theme-modern article {
+  background: var(--color-bg-card) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--color-border) !important;
+  border-radius: 16px !important;
+  transition: all 0.3s;
+}
+
+html.theme-modern .group:hover article {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: var(--color-border-light) !important;
+  transform: translateY(-2px);
+  box-shadow: none;
+}
+
+/* Tags: glass pill */
+html.theme-modern article span[class*="rounded-md"] {
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  padding: 2px 8px;
+}
+
+/* ── Hero: eyebrow accent color ─────────────────────── */
+html.theme-modern [data-section="hero"] p:first-of-type {
+  color: var(--color-text-secondary);
+  font-weight: 300;
+}
+
+/* ── Section labels ─────────────────────────────────── */
+html.theme-modern [data-section] h2 {
+  font-weight: 500;
+}
+
+/* ── Current role box: glass accent ─────────────────── */
+html.theme-modern .rounded-lg.border-accent\/20 {
+  background: rgba(14, 165, 233, 0.05) !important;
+  border: 1px solid rgba(14, 165, 233, 0.15) !important;
+  border-radius: 16px;
+}
+
+html.theme-modern .rounded-lg.border-accent\/20 .text-accent\/70 {
+  color: var(--color-accent) !important;
+}
+
+/* ── Contact button: glass with accent ───────────────── */
+html.theme-modern [data-section="contact"] a[href^="mailto"] {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg);
+  font-weight: 500;
+  border-radius: 12px;
+}
+
+html.theme-modern [data-section="contact"] a[href^="mailto"]:hover {
+  background: var(--color-accent-light);
+  border-color: var(--color-accent-light);
+  box-shadow: 0 0 40px -10px var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* ── About section: glass card ──────────────────────── */
+html.theme-modern [data-section="about"] .rounded-xl {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+}
+
+/* ── Footer ─────────────────────────────────────────── */
+html.theme-modern [data-section="footer"] {
+  border-color: var(--color-border);
+}
+
+/* ── Links ──────────────────────────────────────────── */
+html.theme-modern a {
+  color: inherit;
+}
+html.theme-modern a:hover {
+  color: var(--color-text);
+}
+html.theme-modern [data-section] a[class*="text-text"] {
+  color: var(--color-text);
+}
+html.theme-modern [data-section] a[class*="text-text"]:hover {
+  color: var(--color-accent);
+}
+
+/* ── Hero glow: conic instead of radial ─────────────── */
+html.theme-modern [data-section="hero"] > div:first-child {
+  background: conic-gradient(from 180deg, #0ea5e9, #8b5cf6, #ec4899, #0ea5e9);
+  opacity: 0.04;
+  filter: blur(120px);
+}
+
+/* ── Scroll hint accent ─────────────────────────────── */
+
+/* ── Timeline: glass cards, accent highlight ─────────── */
+html.theme-modern .timeline-entry {
+  border-color: var(--color-border);
+}
+
+html.theme-modern .timeline-highlight .timeline-card {
+  background: rgba(14, 165, 233, 0.05);
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+html.theme-modern .timeline-highlight .timeline-period span {
+  color: var(--color-accent);
+}
+
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 640px) {
+  html.theme-modern body::after {
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    right: -100px;
+  }
+}

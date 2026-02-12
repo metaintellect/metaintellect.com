@@ -1,0 +1,73 @@
+---
+import "../styles/global.css";
+import "../styles/themes/default.css";
+import "../styles/themes/terminal.css";
+import "../styles/themes/bold.css";
+import "../styles/themes/modern.css";
+import "../styles/themes/studio.css";
+import ThemeSwitcher from "../components/ThemeSwitcher.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "Metaintellect — 20 years of software engineering. DevOps, AI, and infrastructure from Rijeka, Croatia.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Fonts: Inter (default/modern), JetBrains Mono (terminal), Space Grotesk (bold) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+
+    <!-- Restore theme from localStorage before paint to prevent flash -->
+    <script is:inline>
+      (function() {
+        const saved = localStorage.getItem('mi-theme');
+        if (saved && ['theme-default', 'theme-terminal', 'theme-bold', 'theme-modern', 'theme-studio'].includes(saved)) {
+          document.documentElement.className = saved;
+        }
+      })();
+    </script>
+  </head>
+  <body class="bg-bg min-h-screen">
+    <slot />
+    <ThemeSwitcher />
+
+    <!-- Scroll animation observer -->
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
+      );
+
+      document.querySelectorAll(".fade-in").forEach((el) => {
+        observer.observe(el);
+      });
+    </script>
+  </body>
+</html>

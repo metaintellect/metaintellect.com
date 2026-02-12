@@ -1,0 +1,205 @@
+/*
+ * Studio Theme — Bold typography meets the logo palette.
+ * Big Space Grotesk type, blue/gray accent from the swoosh mark,
+ * default's spotlight glow and noise texture preserved.
+ * Deep black background for maximum contrast.
+ */
+
+html.theme-studio {
+  /* Warm neutral backgrounds from bold palette */
+  --color-bg: #050505;
+  --color-bg-raised: #111;
+  --color-bg-card: #111;
+  --color-border: #222;
+  --color-border-light: #333;
+  --color-text: #d0d0d8;
+  --color-text-secondary: #908f98;
+  --color-text-muted: #5a5a66;
+  /* Blue stays as primary accent */
+  --color-accent: #4ab8e8;
+  --color-accent-light: #7dd0f4;
+  --color-accent-dim: rgba(74, 184, 232, 0.10);
+  --font-sans: "Space Grotesk", system-ui, sans-serif;
+
+  --studio-blue: #4ab8e8;
+  --studio-gray: #52525e;
+  --studio-blue-dim: rgba(74, 184, 232, 0.06);
+  --studio-slate: #6e7a8a;
+}
+
+/* Selection */
+html.theme-studio ::selection {
+  background: rgba(74, 184, 232, 0.3);
+  color: var(--color-text);
+}
+
+/* ── Keep default's noise overlay (body::after stays) ── */
+
+/* ── Warm spotlight glow instead of cold blue ────────── */
+html.theme-studio [data-section="hero"] > div:first-child {
+  background: rgba(210, 160, 80, 0.05) !important;
+  width: 900px !important;
+  height: 650px !important;
+}
+
+/* Est. 2016 line and hero links in warm sand */
+html.theme-studio [data-section="hero"] p:first-of-type {
+  color: #c4a882 !important;
+}
+
+
+/* ── Hero: match bold theme text sizing ─────────────── */
+html.theme-studio [data-section="hero"] p:last-of-type {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* ── Justified text throughout ──────────────────────── */
+html.theme-studio [data-section="hero"] p,
+html.theme-studio .timeline-prose,
+html.theme-studio .ai-prose,
+html.theme-studio .project-prose p {
+  text-align: justify;
+}
+
+/* ── Section headings: match bold theme ─────────────── */
+html.theme-studio [data-section] h2 {
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+}
+
+/* ── Timeline: larger headings ──────────────────────── */
+html.theme-studio .timeline-entry h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Two-tone emphasis: warm for bold, cool for italic */
+html.theme-studio .timeline-prose strong,
+html.theme-studio .ai-prose strong,
+html.theme-studio .project-prose strong {
+  color: #c4a882;
+  font-weight: 500;
+  font-style: normal;
+}
+
+html.theme-studio .timeline-prose em,
+html.theme-studio .ai-prose em,
+html.theme-studio .project-prose em {
+  color: #6db8cc;
+  font-weight: 400;
+  font-style: italic;
+}
+
+html.theme-studio .timeline-prose {
+  font-size: 1.1rem;
+}
+
+/* ── Highlight card: blue accent ────────────────────── */
+html.theme-studio .timeline-highlight .timeline-card {
+  background: var(--studio-blue-dim);
+  border: 1px solid rgba(74, 184, 232, 0.12);
+  border-radius: 16px;
+}
+
+html.theme-studio .timeline-highlight .timeline-period span {
+  color: var(--studio-blue);
+  font-weight: 600;
+}
+
+/* ── Project cards on main page: clean with subtle blue hover ── */
+html.theme-studio .group article {
+  border-radius: 16px !important;
+  border-color: var(--color-border) !important;
+  background: var(--color-bg-card) !important;
+  transition: all 0.3s;
+}
+
+html.theme-studio .group:hover article {
+  border-color: rgba(74, 184, 232, 0.25) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 16px 50px -16px rgba(74, 184, 232, 0.1);
+}
+
+/* Tags: subtle pills */
+html.theme-studio .group article span[class*="rounded-md"] {
+  border-radius: 50px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  padding: 2px 10px;
+}
+
+/* ── Contact: clean blue button, not flashy ──────────── */
+html.theme-studio [data-section="contact"] h2 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+}
+
+html.theme-studio [data-section="contact"] a[href^="mailto"] {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  color: var(--studio-blue);
+  font-weight: 500;
+  border-radius: 12px;
+}
+
+html.theme-studio [data-section="contact"] a[href^="mailto"]:hover {
+  border-color: rgba(74, 184, 232, 0.3);
+  background: rgba(74, 184, 232, 0.06);
+  box-shadow: 0 0 30px -10px var(--studio-blue);
+  color: var(--studio-blue);
+}
+
+/* ── About card: rounded ────────────────────────────── */
+html.theme-studio [data-section="about"] .rounded-xl {
+  border-radius: 16px;
+}
+
+/* ── AI prose: bigger ───────────────────────────────── */
+html.theme-studio .ai-prose {
+  font-size: 1.1rem;
+}
+
+/* ── Project detail pages ───────────────────────────── */
+html.theme-studio [data-section="project"] > div:first-child {
+  background: rgba(210, 160, 80, 0.04) !important;
+  width: 900px !important;
+  height: 600px !important;
+}
+
+html.theme-studio .project-prose {
+  font-size: 1.1rem;
+}
+
+html.theme-studio .project-prose h2 {
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* Stats/tech headings outside prose — same treatment */
+html.theme-studio [data-section="project"] > div:nth-child(2) > div > h2 {
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ── Links ──────────────────────────────────────────── */
+html.theme-studio a {
+  color: var(--studio-blue);
+}
+html.theme-studio a:hover {
+  color: var(--color-accent-light);
+}
+
+/* ── Footer ─────────────────────────────────────────── */
+html.theme-studio [data-section="footer"] {
+  border-color: var(--color-border);
+}

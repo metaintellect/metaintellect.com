@@ -1,0 +1,21 @@
+/*
+ * Default Theme — copper accent, Inter, clean minimal
+ * This is the base look from global.css. No overrides needed;
+ * exists so the switcher has a label for the "unthemed" state.
+ * If html has no theme-* class (or has theme-default), global.css applies as-is.
+ */
+html.theme-default {
+  /* Explicitly restate defaults so switching FROM another theme resets */
+  --color-bg: #08080c;
+  --color-bg-raised: #101018;
+  --color-bg-card: #14141e;
+  --color-border: #1e1e2e;
+  --color-border-light: #2a2a3a;
+  --color-text: #e2e2e8;
+  --color-text-secondary: #9898a6;
+  --color-text-muted: #5c5c6e;
+  --color-accent: #c8956a;
+  --color-accent-light: #dbb896;
+  --color-accent-dim: oklch(0.65 0.1 55 / 0.12);
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}

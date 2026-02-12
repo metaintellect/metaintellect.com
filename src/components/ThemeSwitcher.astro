@@ -1,0 +1,219 @@
+---
+/*
+ * ThemeSwitcher — floating button that cycles through 4 themes.
+ * Persists choice to localStorage. Flash prevention is handled by
+ * an inline script in Layout.astro <head>.
+ */
+---
+
+<div id="theme-switcher" class="theme-switcher">
+  <button
+    id="theme-btn"
+    type="button"
+    title="Switch theme"
+    aria-label="Switch theme"
+  >
+    <svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 2v2"/>
+      <path d="M12 20v2"/>
+      <path d="m4.93 4.93 1.41 1.41"/>
+      <path d="m17.66 17.66 1.41 1.41"/>
+      <path d="M2 12h2"/>
+      <path d="M20 12h2"/>
+      <path d="m6.34 17.66-1.41 1.41"/>
+      <path d="m19.07 4.93-1.41 1.41"/>
+    </svg>
+    <span id="theme-label">default</span>
+  </button>
+
+  <div id="theme-menu" class="theme-menu" role="menu">
+    <button data-theme="theme-default" role="menuitem">
+      <span class="swatch swatch-default"></span>
+      Default
+    </button>
+    <button data-theme="theme-terminal" role="menuitem">
+      <span class="swatch swatch-terminal"></span>
+      Terminal
+    </button>
+    <button data-theme="theme-bold" role="menuitem">
+      <span class="swatch swatch-bold"></span>
+      Bold
+    </button>
+    <button data-theme="theme-modern" role="menuitem">
+      <span class="swatch swatch-modern"></span>
+      Modern
+    </button>
+    <button data-theme="theme-studio" role="menuitem">
+      <span class="swatch swatch-studio"></span>
+      Studio
+    </button>
+  </div>
+</div>
+
+<style>
+  .theme-switcher {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 9998;
+    font-family: var(--font-sans);
+  }
+
+  .theme-switcher button#theme-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(20, 20, 30, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .theme-switcher button#theme-btn:hover {
+    color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(20, 20, 30, 0.95);
+  }
+
+  .theme-menu {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 0;
+    background: rgba(16, 16, 24, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 6px;
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 140px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .theme-menu.open {
+    display: flex;
+  }
+
+  .theme-menu button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+
+  .theme-menu button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .theme-menu button.active {
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  .swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .swatch-default { background: #c8956a; }
+  .swatch-terminal { background: #4af626; }
+  .swatch-bold { background: linear-gradient(135deg, #ff6b35, #e84393); }
+  .swatch-modern { background: #0ea5e9; }
+  .swatch-studio { background: #4ab8e8; }
+</style>
+
+<script>
+  const themes = ['theme-default', 'theme-terminal', 'theme-bold', 'theme-modern', 'theme-studio'] as const;
+  const labels: Record<string, string> = {
+    'theme-default': 'default',
+    'theme-terminal': 'terminal',
+    'theme-bold': 'bold',
+    'theme-modern': 'modern',
+    'theme-studio': 'studio',
+  };
+
+  const btn = document.getElementById('theme-btn')!;
+  const menu = document.getElementById('theme-menu')!;
+  const label = document.getElementById('theme-label')!;
+  const menuButtons = menu.querySelectorAll<HTMLButtonElement>('button[data-theme]');
+
+  function getCurrentTheme(): string {
+    for (const t of themes) {
+      if (document.documentElement.classList.contains(t)) return t;
+    }
+    return 'theme-default';
+  }
+
+  function setTheme(theme: string) {
+    // Remove all theme classes
+    themes.forEach(t => document.documentElement.classList.remove(t));
+    // Add the new one
+    document.documentElement.classList.add(theme);
+    // Persist
+    localStorage.setItem('mi-theme', theme);
+    // Update label
+    label.textContent = labels[theme] || 'default';
+    // Update active state in menu
+    menuButtons.forEach(b => {
+      b.classList.toggle('active', b.dataset.theme === theme);
+    });
+  }
+
+  // Initialize label and active state from current theme
+  const current = getCurrentTheme();
+  label.textContent = labels[current] || 'default';
+  menuButtons.forEach(b => {
+    b.classList.toggle('active', b.dataset.theme === current);
+  });
+
+  // Toggle menu
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    menu.classList.toggle('open');
+  });
+
+  // Theme selection
+  menuButtons.forEach(b => {
+    b.addEventListener('click', () => {
+      const theme = b.dataset.theme!;
+      setTheme(theme);
+      menu.classList.remove('open');
+    });
+  });
+
+  // Close menu on outside click
+  document.addEventListener('click', () => {
+    menu.classList.remove('open');
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      menu.classList.remove('open');
+    }
+  });
+</script>
