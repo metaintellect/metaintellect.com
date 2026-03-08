@@ -42,3 +42,15 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  rollout:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 46.224.236.202
+          username: deploy
+          key: ${{ secrets.METAINTELLECT_SITE_DEPLOY_SSH_KEY }}
+          script: sudo kubectl rollout restart deployment site -n site
