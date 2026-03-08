@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
-const { title, subtitle, description, status, statsTitle, stats, technologies } =
+const { title, subtitle, description, status, demo, statsTitle, stats, technologies } =
   project.data;
 ---
 
@@ -42,10 +42,22 @@ const { title, subtitle, description, status, statsTitle, stats, technologies } 
         </p>
         {status && (
           <div class="mt-6 flex flex-wrap gap-3">
-            <span class="inline-flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-1.5 text-xs text-text-muted">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-              {status}
-            </span>
+            {demo ? (
+              <a
+                href={demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-1.5 text-xs text-text-muted transition-colors hover:border-accent/30 hover:text-accent"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                {status}
+              </a>
+            ) : (
+              <span class="inline-flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-1.5 text-xs text-text-muted">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                {status}
+              </span>
+            )}
           </div>
         )}
       </header>

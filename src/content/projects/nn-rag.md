@@ -4,6 +4,7 @@ subtitle: "Retrieval-Augmented Generation for Croatian legal documents from Naro
 description: "A production-grade RAG system for searching 38,000+ Croatian legal documents with hybrid retrieval, reranking, and semantic caching."
 order: 1
 status: "Live demo coming soon"
+demo: "https://nn.metaintellect.com"
 statsTitle: "Numbers"
 stats:
   - value: "38K+"

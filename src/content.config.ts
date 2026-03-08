@@ -28,6 +28,7 @@ const projects = defineCollection({
     description: z.string(),
     order: z.number(),
     status: z.string().optional(),
+    demo: z.string().url().optional(),
     statsTitle: z.string().optional(),
     stats: z
       .array(
