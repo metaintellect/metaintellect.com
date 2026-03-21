@@ -7,6 +7,7 @@ Use this playbook when switching a repository from Renovate to Dependabot and ke
 - Use Dependabot for npm and GitHub Actions updates.
 - Group non-major version updates into one PR per ecosystem.
 - Keep major updates separate.
+- Keep only one open version-update PR per ecosystem at a time.
 - Keep security updates enabled and grouped.
 - Run checks weekly unless the repository is especially sensitive or high churn.
 
@@ -26,7 +27,7 @@ updates:
       timezone: "Europe/Zagreb"
     labels:
       - "dependencies"
-    open-pull-requests-limit: 2
+    open-pull-requests-limit: 1
     groups:
       npm-non-major:
         applies-to: version-updates
@@ -48,7 +49,7 @@ updates:
       timezone: "Europe/Zagreb"
     labels:
       - "dependencies"
-    open-pull-requests-limit: 2
+    open-pull-requests-limit: 1
     groups:
       github-actions-non-major:
         applies-to: version-updates
@@ -64,6 +65,13 @@ updates:
 ```
 
 If the repository already has Renovate configured, remove `renovate.json` or `.renovaterc*` and disable the Renovate app for that repository in GitHub.
+
+Why `open-pull-requests-limit: 1`:
+
+- It serializes updates within each ecosystem.
+- It avoids grouped non-major PRs competing with separate major PRs for the same lockfile.
+- It reduces rebase churn and conflict noise.
+- It is a better default for smaller repos where each merge can trigger a deployment or image rebuild.
 
 ## GitHub-side settings
 
@@ -95,6 +103,12 @@ After merging the new `dependabot.yml`:
 1. Close old Renovate PRs.
 2. Close stale ungrouped Dependabot PRs.
 3. Wait for Dependabot to rescan and recreate grouped PRs.
+
+If a grouped PR and a major PR are already open for the same ecosystem:
+
+1. Pick one path first.
+2. Merge or close that PR.
+3. Let Dependabot recreate or rebase the other one afterward.
 
 ## GitHub Actions scope
 
