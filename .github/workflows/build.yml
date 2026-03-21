@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     if: success()
     steps:
-      - uses: appleboy/ssh-action@v1.0.3
+      - uses: appleboy/ssh-action@v1.2.5
         with:
           host: 46.224.236.202
           username: deploy
