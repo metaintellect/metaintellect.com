@@ -7,8 +7,6 @@ updates:
       day: "monday"
       time: "09:00"
       timezone: "Europe/Zagreb"
-    labels:
-      - "dependencies"
     open-pull-requests-limit: 1
     groups:
       npm-non-major:
@@ -29,8 +27,6 @@ updates:
       day: "monday"
       time: "09:15"
       timezone: "Europe/Zagreb"
-    labels:
-      - "dependencies"
     open-pull-requests-limit: 1
     groups:
       github-actions-non-major:
