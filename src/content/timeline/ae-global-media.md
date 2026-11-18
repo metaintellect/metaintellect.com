@@ -6,6 +6,6 @@ order: 1
 highlight: true
 ---
 
-DevOps and platform engineering via Metaintellect d.o.o. Infrastructure evolved from awscli scripts to Terraform to **Pulumi with custom TypeScript components** — reusable libraries the team builds on. AWS, *Fastly CDN*, *DataDog* observability.
+DevOps and platform engineering. Infrastructure evolved from awscli scripts to Terraform to **Pulumi with custom TypeScript components** — reusable libraries the team builds on. AWS, *Fastly CDN*, *DataDog* observability.
 
 Currently teaching the team AI-augmented engineering and Pulumi component design.
